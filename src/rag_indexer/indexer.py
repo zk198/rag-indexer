@@ -8,7 +8,7 @@ from psycopg.rows import dict_row
 from qdrant_client import QdrantClient
 from qdrant_client.models import (
     Distance, VectorParams, SparseVectorParams, SparseIndexParams,
-    PointStruct, SparseVector, Filter, FieldCondition, MatchValue,
+    PointStruct, SparseVector, Filter, FieldCondition, MatchValue, Modifier,
 )
 from fastembed import TextEmbedding, SparseTextEmbedding
 
@@ -31,7 +31,7 @@ class Indexer:
         self.qdrant.create_collection(
             collection_name=self.settings.collection,
             vectors_config={"dense": VectorParams(size=384, distance=Distance.COSINE)},
-            sparse_vectors_config={"sparse": SparseVectorParams(index=SparseIndexParams(on_disk=False))},
+            sparse_vectors_config={"sparse": SparseVectorParams(index=SparseIndexParams(on_disk=False), modifier=Modifier.IDF)},
         )
         self.qdrant.create_payload_index(self.settings.collection, "tenant_id", "keyword")
         self.qdrant.create_payload_index(self.settings.collection, "source_name", "keyword")
