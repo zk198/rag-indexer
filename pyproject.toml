@@ -1,0 +1,16 @@
+[project]
+name = "rag-indexer"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+  "psycopg[binary]>=3.2,<4.0",
+  "qdrant-client>=1.14,<2.0",
+  "fastembed>=0.7,<1.0",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8.3,<9.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
