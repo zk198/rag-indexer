@@ -35,6 +35,7 @@ class Indexer:
         )
         self.qdrant.create_payload_index(self.settings.collection, "tenant_id", "keyword")
         self.qdrant.create_payload_index(self.settings.collection, "source_name", "keyword")
+        self.qdrant.create_payload_index(self.settings.collection, "user_id", "keyword")
 
     def _chunks_for_parent(self, conn, tenant_id: str, parent_kind: str, parent_id: str):
         return conn.execute(
