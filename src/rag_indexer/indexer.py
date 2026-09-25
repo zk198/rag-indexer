@@ -210,7 +210,7 @@ class Indexer:
         if event["event_type"] == "source_cleared":
             self._delete_source(event["tenant_id"], event["source_name"])
             return
-        raise ValueError(f"unsupported outbox event type: {event["event_type"]}")
+        raise ValueError(f"unsupported outbox event type: {event['event_type']}")
 
     def run_once(self, limit: int | None = None):
         limit = limit or self.settings.batch_size
