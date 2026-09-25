@@ -1,0 +1,11 @@
+services:
+  rag-indexer:
+    build: .
+    environment:
+      RAG_POSTGRES_DSN: postgresql://rag:rag@postgres:5432/rag
+      RAG_QDRANT_URL: http://qdrant:6333
+    depends_on:
+      postgres:
+        condition: service_healthy
+      qdrant:
+        condition: service_started
