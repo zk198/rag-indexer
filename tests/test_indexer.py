@@ -274,7 +274,7 @@ def test_run_once_retries_failed_event_with_backoff(monkeypatch):
         for sql, params in conn.calls
         if "last_error = %s" in sql
     ][0]
-    assert failure[1] == (20, "qdrant unavailable", 8)
+    assert failure[1] == (10, "qdrant unavailable", 8)
 
 
 def test_run_once_does_not_ack_unknown_event(monkeypatch):
