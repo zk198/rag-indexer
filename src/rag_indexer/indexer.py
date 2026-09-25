@@ -184,7 +184,7 @@ class Indexer:
     def _mark_failed(self, conn, event_id: int, error: Exception, attempts: int):
         delay = min(
             self.settings.outbox_retry_max_seconds,
-            self.settings.outbox_retry_base_seconds * (2 ** max(attempts - 1, 0)),
+            self.settings.outbox_retry_base_seconds * (2 ** max(attempts, 0)),
         )
         conn.execute(
             """
@@ -210,7 +210,7 @@ class Indexer:
         if event["event_type"] == "source_cleared":
             self._delete_source(event["tenant_id"], event["source_name"])
             return
-        raise ValueError(f"unsupported outbox event type: {event['event_type']}")
+        raise ValueError(f"unsupported outbox event type: {event["event_type"]}")
 
     def run_once(self, limit: int | None = None):
         limit = limit or self.settings.batch_size
