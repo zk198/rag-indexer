@@ -26,13 +26,12 @@ class Indexer:
         self._ensure_collection()
 
     def _ensure_collection(self):
-        if self.qdrant.collection_exists(self.settings.collection):
-            return
-        self.qdrant.create_collection(
-            collection_name=self.settings.collection,
-            vectors_config={"dense": VectorParams(size=384, distance=Distance.COSINE)},
-            sparse_vectors_config={"sparse": SparseVectorParams(index=SparseIndexParams(on_disk=False), modifier=Modifier.IDF)},
-        )
+        if not self.qdrant.collection_exists(self.settings.collection):
+            self.qdrant.create_collection(
+                collection_name=self.settings.collection,
+                vectors_config={"dense": VectorParams(size=384, distance=Distance.COSINE)},
+                sparse_vectors_config={"sparse": SparseVectorParams(index=SparseIndexParams(on_disk=False), modifier=Modifier.IDF)},
+            )
         self.qdrant.create_payload_index(self.settings.collection, "tenant_id", "keyword")
         self.qdrant.create_payload_index(self.settings.collection, "source_name", "keyword")
         self.qdrant.create_payload_index(self.settings.collection, "user_id", "keyword")
