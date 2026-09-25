@@ -184,7 +184,7 @@ class Indexer:
     def _mark_failed(self, conn, event_id: int, error: Exception, attempts: int):
         delay = min(
             self.settings.outbox_retry_max_seconds,
-            self.settings.outbox_retry_base_seconds * (2 ** max(attempts, 0)),
+            self.settings.outbox_retry_base_seconds * (2 ** max(attempts - 1, 0)),
         )
         conn.execute(
             """
