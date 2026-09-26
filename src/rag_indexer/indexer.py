@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import time
+from uuid import NAMESPACE_URL, uuid5
 
 import psycopg
 from psycopg.rows import dict_row
@@ -105,7 +106,7 @@ class Indexer:
         for row, d, s in zip(rows, dense, sparse):
             points.append(
                 PointStruct(
-                    id=f'{row["tenant_id"]}:{row["id"]}',
+                    id=str(uuid5(NAMESPACE_URL, f'rag:{row["tenant_id"]}:{row["id"]}')),
                     vector={
                         "dense": d.tolist(),
                         "sparse": SparseVector(

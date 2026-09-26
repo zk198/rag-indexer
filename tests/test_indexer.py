@@ -167,7 +167,9 @@ def test_index_rows_creates_tenant_scoped_point_payload():
     assert obj.index_rows([row()]) == 1
 
     point = obj.qdrant.upserts[0][1][0]
-    assert point.id == "t1:1"
+    from uuid import NAMESPACE_URL, uuid5
+
+    assert point.id == str(uuid5(NAMESPACE_URL, "rag:t1:1"))
     assert point.payload["tenant_id"] == "t1"
     assert point.payload["chunk_id"] == 1
     assert point.payload["text"] == "hello"
