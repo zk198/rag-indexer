@@ -18,7 +18,7 @@ class Settings:
     def from_env(cls):
         return cls(
             os.environ["RAG_POSTGRES_DSN"],
-            os.getenv("RAG_QDRANT_URL", "http://qdrant:6333"),
+            os.environ["RAG_QDRANT_URL"],
             os.getenv("RAG_QDRANT_COLLECTION", "rag_chunks"),
             os.getenv("RAG_DENSE_MODEL", "BAAI/bge-small-en-v1.5"),
             os.getenv("RAG_SPARSE_MODEL", "Qdrant/bm25"),
